@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Auth API
+  description: API for Authentication.
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Auth server
+tags:
+  - name: Auth
+    description: Everything about your Auth
+paths:
+  /auth/signup:
+    post:
+      summary: to signup
+      description: SignUp User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          description: Returns a userId on successfull signup
+          content:
+            application/json:
+              examples:
+                successfull signup:
+                  value: |-
+                    {
+                        "message": "User created!!",
+                        "userId": "65118fa7219e36ab40307f30"
+                    }
+        '400':
+          description: Validation Failed if email id already exists
+          content:
+            application/json:
+              examples:
+                successfull signup:
+                  value: |-
+                    {
+                         "message": "Validation Failed",
+                          "error": [
+                              {
+                                  "type": "field",
+                                  "value": "psudhakar9633@gmail.com",
+                                  "msg": "E-Mail address already exists!",
+                                  "path": "email",
+                                  "location": "body"
+                              }
+                          ]
+                    }
+        '401':
+          description: Validation Failed if fields are missing
+          content:
+            application/json:
+              examples:
+                if fields are missing:
+                  value: >-
+                    {"message":"Validation
+                    Failed","error":[{"type":"field","value":"","msg":"Please
+                    enter a Last
+                    Name.","path":"lastName","location":"body"}]}
+        '500':
+          description: somthing went wrong
+      tags:
+        - Auth
+  /auth/login:
+    summary: login
+    post:
+      summary: ''
+      description: Login User
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            examples:
+              success:
+                value: |-
+                  {
+                      "email":"p.sudhakar963@gmail.com",
+                      "password":"1234567"
+                  }
+        required: true
+      responses:
+        '200':
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                success:
+                  value: |-
+                    {
+                        "message": "Logged in successfully",
+                        "userId": "65113795690fb2ca24bfa7d6"
+                    }
+        '401':
+          description: for wrong password
+          content:
+            application/json:
+              examples:
+                wrong credentials:
+                  value: |-
+                    {
+                        "message": "Wrong password!"
+                    }
+      tags:
+        - Auth
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: sudhakar
+        lastName:
+          type: string
+          example: p
+        email:
+          type: string
+          example: p.sudhkar963@gmail.com
+        password:
+          type: string
