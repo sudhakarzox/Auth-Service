@@ -33,7 +33,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    'mongodb+srv://usecase:m963GsrAwyngYE5R@cluster0.ioof7np.mongodb.net/?retryWrites=true&w=majority'
+    'uri'
   )
   .then(result => {
     app.listen(8080);
